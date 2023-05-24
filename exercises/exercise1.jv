@@ -43,3 +43,4 @@ pipeline AirportsPipeline {
 		file: "./exercises/airports.sqlite";
 	}
 }
+
