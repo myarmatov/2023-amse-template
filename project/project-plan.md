@@ -45,7 +45,6 @@ The dataset contains the variables you stated as details before generating.
 
 ## Work Packages
 
-1. Issue [#1][i1]
-2. ...
+To be updated
 
 [i1]: https://github.com/myarmatov/2023-amse-template/blob/main/issues/1
