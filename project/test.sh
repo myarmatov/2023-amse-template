@@ -9,7 +9,7 @@ else
 fi
 
 # Execute extract_transform_load.py
-python extract_transform_load.py
+python project/extract_transform_load.py
 
 # Check if extract_transform_load.py executed successfully
 if [ $? -eq 0 ]; then
@@ -20,7 +20,7 @@ else
 fi
 
 # Execute pytest.py
-python pytest.py
+python project/pytest.py
 
 # Check if test.py executed successfully
 if [ $? -eq 0 ]; then
