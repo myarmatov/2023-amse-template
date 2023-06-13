@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if files exist
-if [ -f "bikeCountKonstanz_ds1.sqlite" ] && [ -f "bikeCountKonstanz_ds2.sqlite" ]; then
+if [ -f "project/bikeCountKonstanz_ds1.sqlite" ] && [ -f "project/bikeCountKonstanz_ds2.sqlite" ]; then
     echo "Both output files exist. File check test passed."
 else
     echo "Either output1.sql or output2.sql is missing. File check test failed."
