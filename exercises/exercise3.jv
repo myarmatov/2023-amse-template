@@ -1,0 +1,68 @@
+
+valuetype CIN oftype text{constraints: [ CINLength ];}
+
+constraint CINLength oftype LengthConstraint 
+{
+    minLength: 5;
+    maxLength: 5;
+}
+
+valuetype petrol oftype integer{constraints: [ PositiveInteger ];}
+valuetype diesel oftype integer{constraints: [ PositiveInteger ];}
+valuetype gas oftype integer{constraints: [ PositiveInteger ];}
+valuetype hybrid oftype integer{constraints: [ PositiveInteger ];}
+valuetype plugInHybrid oftype integer{constraints: [ PositiveInteger ];}
+valuetype others oftype integer{constraints: [ PositiveInteger ];}
+
+constraint PositiveInteger oftype RangeConstraint 
+{
+  lowerBound: 1;
+  lowerBoundInclusive: true;      
+}
+
+pipeline CarsPipelinePipeline 
+{
+	block DataExtractor oftype HttpExtractor { url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46251-0021_00.csv"; }	
+    block CarsTextFileInterpreter oftype TextFileInterpreter {encoding:"ascii";}
+	block CarsCSVInterpreter oftype CSVInterpreter { delimiter: ";"; }
+    block RowDeleter oftype RowDeleter
+    {
+    delete: [row 1, row 2,row 3, row 4, row 5, row 6];
+    }
+    
+    block HeaderSequenceWriter oftype CellWriter 
+    {
+        at: range A1:J1;
+        write: ["date", "CIN","name","petrol","diesel","gas","electro","hybrid","plugInHybrid","others"];
+    }
+    
+    block CarsTableInterpreter oftype TableInterpreter 
+    {
+		header: false;
+		columns: 
+				["date" oftype text,
+				"CIN" oftype text,
+				"name" oftype text,
+				"petrol" oftype integer,
+				"diesel" oftype integer,
+				"gas" oftype integer,
+				"electro" oftype integer,
+				"hybrid" oftype integer,
+				"plugInHybrid" oftype integer,
+				"others" oftype integer];
+	}
+    
+	block DatabaseLoader oftype SQLiteLoader 
+    { 
+        table: "cars"; 
+        file: "./cars.sqlite"; 
+    }
+	
+    DataExtractor
+	->CarsTextFileInterpreter
+	->CarsCSVInterpreter
+    ->RowDeleter
+    ->HeaderSequenceWriter
+    ->CarsTableInterpreter
+    ->DatabaseLoader;
+}
