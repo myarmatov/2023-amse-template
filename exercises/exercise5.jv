@@ -1,5 +1,10 @@
-constraint ZoneId oftype AllowlistConstraint {allowlist: ["2001"];}
-valuetype ZoneIdType oftype text {constraints: [ZoneId];}
+constraint ZoneId oftype RangeConstraint 
+{
+  lowerBound: 2001;
+  upperBound: 2001;  
+}
+
+valuetype ZoneIdType oftype integer {constraints: [ZoneId];}
 
 constraint CoordinatesConstraint oftype RangeConstraint 
 {
